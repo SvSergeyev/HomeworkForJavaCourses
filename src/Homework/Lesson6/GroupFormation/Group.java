@@ -1,4 +1,4 @@
-package Homework.Lesson6;
+package Homework.Lesson6.GroupFormation;
 
 import java.util.Arrays;
 
@@ -11,14 +11,14 @@ public class Group {
     // если набор ещё идёт.
 
     private boolean isOpen;     // идет ли набор в группу
-    private int groupSize;      // размер массива альпинистов
+//    private int groupSize;      // размер массива альпинистов
     private Climber[] climbers; // массив альпинистов
     private Mountain mountain;  // гора
     private int count;
 
-    public boolean isOpen() {
-        return isOpen;
-    }
+//    public boolean isOpen() {
+//        return isOpen;
+//    }
     public void setOpen() {
         isOpen = true;
     }
@@ -51,7 +51,9 @@ public class Group {
            if (isOpen && climber != null) {
                this.climbers[count++] = climber;
                if (count == this.climbers.length) setClose();
-           } else if (!isOpen) System.out.println("Набор в группу закрыт, некоторые альпинисты не были добавлены.");
+           }
+           else if (!isOpen) System.out.println("Набор в группу закрыт, некоторые альпинисты не были добавлены.");
+           else throw new IllegalArgumentException("В списке отсутствует альпинист.");
         }
     }
 

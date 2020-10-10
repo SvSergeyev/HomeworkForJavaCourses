@@ -1,4 +1,4 @@
-package Homework.Lesson6;
+package Homework.Lesson6.GroupFormation;
 
 public class Mountain {
     // Гора создаётся с:

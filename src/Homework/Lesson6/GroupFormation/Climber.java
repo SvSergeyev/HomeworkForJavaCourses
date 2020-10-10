@@ -1,4 +1,4 @@
-package Homework.Lesson6;
+package Homework.Lesson6.GroupFormation;
 
 public class Climber {
     // Альпинист создаётся с именем (не менее 3 символов)

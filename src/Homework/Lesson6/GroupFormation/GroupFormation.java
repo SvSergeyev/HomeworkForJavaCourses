@@ -1,4 +1,4 @@
-package Homework.Lesson6;
+package Homework.Lesson6.GroupFormation;
 
 public class GroupFormation {
     public static void main(String[] args) {
@@ -22,6 +22,7 @@ public class GroupFormation {
 //        group1.addClimber(climber2);
 //        group1.addClimber(climber3);
         group1.addClimber(climber1, climber2, climber3);
+        group1.addClimber();
 
         group2.addClimber(climber4);
         group2.addClimber(climber5);
