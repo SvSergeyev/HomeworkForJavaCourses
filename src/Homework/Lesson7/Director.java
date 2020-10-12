@@ -1,6 +1,6 @@
 package Homework.Lesson7;
 
-public class Director extends Human implements TeachAble {
+final public class Director extends Human implements TeachAble {
     private boolean isWork = true;
 
     public Director(String name, int age) {

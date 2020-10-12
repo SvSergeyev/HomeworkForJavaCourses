@@ -3,10 +3,10 @@ package Homework.Lesson7;
 import java.util.Arrays;
 
 public class School {
-    protected final String schoolName;
-    protected Director director;
-    protected Teacher[] teachers;
-    protected Pupil[] pupils;
+    private final String schoolName;
+    private Director director;
+    private Teacher[] teachers;
+    private Pupil[] pupils;
     private int countT, countP;
 
     public void setDirector(Director director) {
@@ -44,13 +44,15 @@ public class School {
     public void classTime() {
         director.startLearning();
         for (Teacher teacher : teachers) {
-            for (Pupil pupil : pupils) {
-                if (teacher.getSubjectTaught().toLowerCase().equals(pupil.getStudyingSubject().toLowerCase())) {
-                    pupil.study();
-                    System.out.println("Учитель " + teacher.name +
-                            " обучил ученика " + pupil.name +
-                            " предмету " + teacher.getSubjectTaught() +
-                            ". Уровень знания ученика увеличился до " + pupil.getKnowledge());
+            if (teacher != null) {
+                for (Pupil pupil : pupils) {
+                    if (teacher.getSubject().equalsIgnoreCase(pupil.getSubject())) {
+                        pupil.study();
+                        /*System.out.println("Учитель " + teacher.name +
+                                " обучил ученика " + pupil.name +
+                                " предмету " + teacher.getSubject() +
+                                ". Уровень знания ученика увеличился до " + pupil.getKnowledge());*/
+                    }
                 }
             }
         }

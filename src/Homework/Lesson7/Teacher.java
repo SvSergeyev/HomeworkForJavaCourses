@@ -1,20 +1,20 @@
 package Homework.Lesson7;
 
 public class Teacher extends Human implements TeachAble {
-    private String subjectTaught;
+    private String subject;
 
-    public void setSubjectTaught(String subjectTaught) {
-        if (subjectTaught == null) throw new IllegalArgumentException("Ученику не задан предмет для изучения.");
-        if (subjectTaught.trim().length() < 2) throw new IllegalArgumentException("Название предмета не может быть короче двух символов.");
-        this.subjectTaught = subjectTaught;
+    public void setSubject(String subject) {
+        if (subject == null) throw new IllegalArgumentException("Ученику не задан предмет для изучения.");
+        if (subject.trim().length() < 2) throw new IllegalArgumentException("Название предмета не может быть короче двух символов.");
+        this.subject = subject;
     }
-    public String getSubjectTaught() {
-        return subjectTaught;
+    public String getSubject() {
+        return subject;
     }
 
-    public Teacher(String name, int age, String subjectTaught) {
+    public Teacher(String name, int age, String subject) {
         super(name, age);
-        setSubjectTaught(subjectTaught);
+        setSubject(subject);
     }
 
     @Override
@@ -25,7 +25,7 @@ public class Teacher extends Human implements TeachAble {
     @Override
     public String toString() {
         return "Учитель{" +
-                "Преподаваемый предмет:'" + subjectTaught + '\'' +
+                "Преподаваемый предмет:'" + subject + '\'' +
                 ", имя:'" + name + '\'' +
                 ", возраст:" + age +
                 '}';
