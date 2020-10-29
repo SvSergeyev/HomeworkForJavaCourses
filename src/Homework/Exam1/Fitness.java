@@ -20,7 +20,7 @@ public class Fitness {
                          keyGym = "gym",
                          keyPool = "pool",
                          keyGroup = "group";
-    private int countGym = 0, countPool = 0, countGroup = 0;
+    private int countGym, countPool, countGroup;
     private final LocalTime expirationTimeOfDayPass = LocalTime.of(16, 0);
 
     public Fitness(int numberOfVisitors) {
