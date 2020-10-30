@@ -53,8 +53,8 @@ public class Employee implements Comparable<Employee> {
             Random r = new Random();
             employees.add(new Employee(names[r.nextInt(names.length)],
                     companies[r.nextInt(companies.length)],
-                    r.nextInt(5001) + 1000,
-                    r.nextInt(61) + 21));
+                    r.nextInt(4001) + 1000,
+                    r.nextInt(40) + 21));
         }
         return employees;
     }
@@ -81,12 +81,48 @@ public class Employee implements Comparable<Employee> {
         return employees;
     }
 
-
     @Override
     public int compareTo(@NotNull Employee o) {
         return Integer.compare(this.getAge(), o.getAge());
     }
+
+    @Override
+    public String toString() {
+        return "Employee{" +
+                "name='" + name + '\'' +
+                ", company='" + company + '\'' +
+                ", salary=" + salary +
+                ", age=" + age +
+                '}';
+    }
+
+    public static void main(String[] args) {
+        List<Employee> employees = employeeGenerator(5);
+        System.out.println("new list created: ");
+        for (Employee employee : employees) {
+            System.out.println(employee.toString());
+        }
+
+        System.out.println("\n" + "sorting by name: ");
+        sortingByName(employees);
+        for (Employee employee : employees) {
+            System.out.println(employee.toString());
+        }
+
+        System.out.println("\n" + "sorting by name and salary: ");
+        sortingByNameAndSalary(employees);
+        for (Employee employee : employees) {
+            System.out.println(employee.toString());
+        }
+
+        System.out.println("\n" + "sorting by all parameters: ");
+        sortingByAllParameters(employees);
+        for (Employee employee : employees) {
+            System.out.println(employee.toString());
+        }
+    }
 }
+
 
 class NameComparator implements Comparator<Employee> {
     @Override
@@ -94,18 +130,21 @@ class NameComparator implements Comparator<Employee> {
         return o1.getName().compareTo(o2.getName());
     }
 }
+
 class CompanyComparator implements Comparator<Employee> {
     @Override
     public int compare(@NotNull Employee o1, Employee o2) {
         return o1.getCompany().compareTo(o2.getCompany());
     }
 }
+
 class SalaryComparator implements Comparator<Employee> {
     @Override
     public int compare(@NotNull Employee o1, Employee o2) {
         return Integer.compare(o1.getSalary(), o2.getSalary());
     }
 }
+
 class AgeComparator implements Comparator<Employee> {
     @Override
     public int compare(@NotNull Employee o1, Employee o2) {
