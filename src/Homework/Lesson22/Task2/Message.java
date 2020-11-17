@@ -1,4 +1,4 @@
-package Homework.Lesson15;
+package Homework.Lesson22.Task2;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -21,7 +21,7 @@ enum MessagePriority {
 
 public class Message {
     private int code;
-    private MessagePriority priority;
+    private  MessagePriority priority;
 
     public Message(int code, MessagePriority priority) {
         this.code = code;
@@ -31,12 +31,15 @@ public class Message {
     public int getCode() {
         return code;
     }
+
     public void setCode(int code) {
         this.code = code;
     }
+
     public MessagePriority getPriority() {
         return priority;
     }
+
     public void setPriority(MessagePriority priority) {
         this.priority = priority;
     }
@@ -70,7 +73,6 @@ public class Message {
     public static void main(String[] args) {
         List<Message> messages = MessageGenerator.generate(34);
         System.out.println(messages);
-        MessageTask.countEachPriority(messages);
     }
 }
 
