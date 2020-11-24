@@ -26,14 +26,16 @@ public class TransactionsTask {
         // Собрать Map<String, Long>, где
         //      String - номер (number) аккаунта,
         //      Long - сумма транзакций (sum) по аккаунту
-        Map<String, Long> amountByAccounts = transactionStream
+        Map<String, Long> amountByAccount = transactionStream
                 .collect(Collectors.groupingBy(
                         transaction -> transaction.getAccount().getNumber(),
                         Collectors.summingLong(Transaction::getSum)));
-        System.out.println(amountByAccounts);
-
+        System.out.println(amountByAccount);
 
         // Найти общую сумму транзакций по по всем аккаунтам
-        
+        Stream<Transaction> transactionStreamDuplicate = Stream.of(transaction1, transaction2, transaction3,
+                transaction4, transaction5, transaction6, transaction7);
+        long totalAmount = transactionStreamDuplicate.mapToLong(Transaction::getSum).sum();
+        System.out.println(totalAmount);
     }
 }

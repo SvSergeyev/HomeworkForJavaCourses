@@ -11,14 +11,6 @@ public class Transaction {
         this.account = account;
     }
 
-    public String getUuid() {
-        return uuid;
-    }
-
-    public void setUuid(String uuid) {
-        this.uuid = uuid;
-    }
-
     public long getSum() {
         return sum;
     }
@@ -31,7 +23,4 @@ public class Transaction {
         return account;
     }
 
-    public void setAccount(Account account) {
-        this.account = account;
-    }
 }
