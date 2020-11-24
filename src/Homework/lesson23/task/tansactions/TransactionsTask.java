@@ -1,5 +1,7 @@
 package Homework.lesson23.task.tansactions;
 
+import java.util.Map;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class TransactionsTask {
@@ -21,7 +23,17 @@ public class TransactionsTask {
         Stream<Transaction> transactionStream = Stream.of(transaction1, transaction2, transaction3,
                 transaction4, transaction5, transaction6, transaction7);
 
-        // TODO:: 1. собрать Map<String, Long>, где String - номер (number) аккаунта, Long - сумма транзакций (sum) по аккаунту
-        // TODO:: 2. найти общую сумму транзакций по по всем аккаунтам
+        // Собрать Map<String, Long>, где
+        //      String - номер (number) аккаунта,
+        //      Long - сумма транзакций (sum) по аккаунту
+        Map<String, Long> amountByAccounts = transactionStream
+                .collect(Collectors.groupingBy(
+                        transaction -> transaction.getAccount().getNumber(),
+                        Collectors.summingLong(Transaction::getSum)));
+        System.out.println(amountByAccounts);
+
+
+        // Найти общую сумму транзакций по по всем аккаунтам
+        
     }
 }
