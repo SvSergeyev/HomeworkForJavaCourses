@@ -27,19 +27,18 @@ public class PupilTask {
         System.out.println(byGender);
 
         // 2. Найти средний возраст учеников
-        double averageAge = pupils.stream()
-                .mapToDouble(Pupil::getAge).average().orElseGet(null);
+        double averageAge = pupils.stream().mapToInt(Pupil::getAge).average().getAsDouble();
         System.out.printf("%.1f", averageAge);
         System.out.println();
 
         // 3. Найти самого младшего ученика
         Pupil youngestPupil = pupils.stream()
-                .min(Comparator.comparing(Pupil::getAge)).orElseGet(null);
+                .min(Comparator.comparing(Pupil::getAge)).get();
         System.out.println(youngestPupil);
 
         // 4. Найти самого старшего ученика
         Pupil oldestPupil = pupils.stream()
-                .max(Comparator.comparing(Pupil::getAge)).orElseGet(null);
+                .max(Comparator.comparing(Pupil::getAge)).get();
         System.out.println(oldestPupil);
 
         // 5. Собрать учеников в группы по году рождения

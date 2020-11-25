@@ -41,6 +41,7 @@ public class Pupil {
         return (int) ChronoUnit.YEARS.between(this.birth, LocalDate.now());
     }
 
+
     @Override
     public String toString() {
         return "Pupil{" +
