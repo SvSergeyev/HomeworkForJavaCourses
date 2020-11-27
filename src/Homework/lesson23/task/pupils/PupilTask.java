@@ -60,13 +60,30 @@ public class PupilTask {
                         .thenComparing(Pupil::getBirth)
                         .thenComparing(Pupil::getName))
                 .collect(Collectors.toList());
-        System.out.println("last: " + sorted);
+        System.out.println(sorted);
 
         // 8. Вывести в консоль всех учеников в возрасте от N до M лет
-
+        int N = 14;
+        int M = 16;
+        Pupil[] pupilsWithAgeBetweenNAndM = pupils.stream()
+                .filter(pupil -> pupil.getAge() > N)
+                .filter(pupil -> pupil.getAge() < M)
+                .toArray(Pupil[]::new);
+        System.out.println(Arrays.toString(pupilsWithAgeBetweenNAndM));
 
         // 9. Собрать в список всех учеников с именем=someName
+        String someName = "Sergey";
+        Pupil[] pupilsWithNameEqualsSomeName = pupils.stream()
+                .filter(pupil -> someName.equalsIgnoreCase(pupil.getName()))
+                .toArray(Pupil[]::new);
+        System.out.println(Arrays.toString(pupilsWithNameEqualsSomeName));
 
         // 10. Собрать Map<Pupil.Gender, Integer>, где Pupil.Gender - пол, Integer - суммарный возраст учеников данного пола
+        Map<Pupil.Gender, Integer> countByGender = pupils.stream()
+                .collect(Collectors.groupingBy(
+                        Pupil::getGender,
+                        Collectors.collectingAndThen(
+                                Collectors.counting(), Long::intValue)));
+        System.out.println(countByGender);
     }
 }
