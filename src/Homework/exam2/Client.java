@@ -1,46 +1,88 @@
 package Homework.exam2;
 
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.IOException;
-import java.io.InputStreamReader;
+import java.io.*;
+import java.net.ServerSocket;
 import java.net.Socket;
 
 public class Client {
-    private final String ip;
-    private final int port;
-    BufferedReader reader;
+//    private Socket socket;
+//    private ObjectOutputStream out;
+//    private ObjectInputStream in;
+    private final String sender;
+    private Connection connection;
 
-    public Client(String ip, int port) {
-        this.ip = ip;
-        this.port = port;
-        reader = new BufferedReader(new InputStreamReader(System.in));
-    }
-
-    public void start() throws Exception {
-        System.out.println("enter your name: ");
-        String name = reader.readLine();
-        System.out.println("text here: ");
-        String sentence;
-        while (true) {
-            sentence = reader.readLine();
-            sendMessage(Message.getMessage(name, sentence));
+    public Client() {
+        sender = "id" + (int) (Math.random() * 10000);
+        try {
+            connection = new Connection(new Socket(Server.IP, Server.PORT));
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 
-    public void sendMessage (Message message) throws Exception {
-        try (Connection connection = new Connection(new Socket(ip, port))) {
-            connection.sendMessage(message);
+    public void start() {
+        Thread writerThread;
+        Thread readerThread;
+        try {
+//            in = new ObjectInputStream(socket.getInputStream());
+//            out = new ObjectOutputStream(socket.getOutputStream());
+            writerThread = new Thread(new Writer());
+            writerThread.start();
+            readerThread = new Thread(new Reader());
+            readerThread.start();
+            System.out.println("Connection completed.");
+            System.out.println("Your " + sender);
+            writerThread.join();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private class Reader implements Runnable {
+        @Override
+        public void run() {
+            try {
+                while (!connection.getSocket().isClosed()) {
+                    Message incoming = (Message) connection.getIn().readObject();
+                    if (!incoming.getSender().equals(sender)) {
+                        System.out.println(incoming.toString());
+                    }
+                }
+            } catch (IOException | ClassNotFoundException e) {
+                System.out.println("Message reading error.");
+            }
+        }
+    }
+
+
+    private class Writer implements Runnable {
+
+        @Override
+        public void run() {
+            BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
+            System.out.println("Text your message here:");
+            try {
+                while (!connection.getSocket().isClosed()) {
+                    String text = reader.readLine();
+                    if (text.equals("/exit")) {
+                        connection.close();
+                        reader.close();
+                        System.out.println("Your connection was closed.");
+                    }
+                    Message outgoing = new Message(sender, text);
+                    outgoing.setSendingTime();
+                    connection.getOut().writeObject(outgoing);
+                    connection.getOut().flush();
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
     }
 
     public static void main(String[] args) {
-        try {
-            new Client("localhost", 8090).start();
-        } catch (Exception e) {
-            System.out.println("client connection error...");
-            e.printStackTrace();
-        }
+        Client client = new Client();
+        client.start();
     }
 
 }

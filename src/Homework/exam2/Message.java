@@ -4,8 +4,8 @@ import java.time.LocalDateTime;
 
 public class Message {
     private LocalDateTime sendingTime;
-    private String sender;
-    private String text;
+    private final String sender;
+    private final String text;
 
     public Message(String sender, String text) {
         this.sender = sender;
@@ -16,19 +16,21 @@ public class Message {
         this.sendingTime = LocalDateTime.now().withNano(0);
     }
 
+    public String getSender() {
+        return sender;
+    }
+
     public static Message getMessage(String name, String text) {
         return new Message(name, text);
     }
 
+    public String getText() {
+        return text;
+    }
+
     @Override
     public String toString() {
-        return sender + " said: "
-                + "\"" + text + "\"" +
-                " at: " + sendingTime;
-//        return "Message{" +
-//                "sendingTime=" + sendingTime +
-//                ", sender=" + sender +
-//                ", text='" + text + '\'' +
-//                '}';
+        return sendingTime + ": " + sender
+                + " said: " + "\"" + text + "\"";
     }
 }
