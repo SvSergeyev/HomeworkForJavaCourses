@@ -1,9 +1,11 @@
 package Homework.exam2;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 
-public class Message {
-    private LocalDateTime sendingTime;
+public class Message implements Serializable {
+    private LocalTime sendingTime;
     private final String sender;
     private final String text;
 
@@ -13,7 +15,7 @@ public class Message {
     }
 
     public void setSendingTime() {
-        this.sendingTime = LocalDateTime.now().withNano(0);
+        this.sendingTime = LocalTime.now().withNano(0);
     }
 
     public String getSender() {
@@ -30,7 +32,10 @@ public class Message {
 
     @Override
     public String toString() {
-        return sendingTime + ": " + sender
-                + " said: " + "\"" + text + "\"";
+        return "Message{" +
+                "sendingTime=" + sendingTime +
+                ", sender='" + sender + '\'' +
+                ", text='" + text + '\'' +
+                '}';
     }
 }
