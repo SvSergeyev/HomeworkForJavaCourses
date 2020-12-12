@@ -1,20 +1,25 @@
 package Homework.exam2;
 
-import java.io.*;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.net.Socket;
 
 public class Connection implements AutoCloseable {
     private Socket socket;
     private ObjectInputStream input;
     private ObjectOutputStream output;
-
-    public Connection(Socket socket) throws IOException {
+    public Connection(Socket socket) {
         this.socket = socket;
-        output = new ObjectOutputStream(this.socket.getOutputStream());
-        input = new ObjectInputStream(this.socket.getInputStream());
+        try {
+            input = new ObjectInputStream(this.socket.getInputStream());
+            output = new ObjectOutputStream(this.socket.getOutputStream());
+        } catch (IOException e) {
+            System.out.println("Connection starting error.");
+        }
     }
 
-    public void sendMessage(Message message) throws IOException {
+    public void send(Message message) throws IOException {
         message.setSendingTime();
         output.writeObject(message);
         output.flush();
@@ -29,5 +34,7 @@ public class Connection implements AutoCloseable {
         input.close();
         output.close();
         socket.close();
+        System.out.println("Connection was closed.");
     }
 }
+
