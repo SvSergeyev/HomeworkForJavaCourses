@@ -1,8 +1,9 @@
 package Homework.exam2;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 
-public class Message {
+public class Message implements Serializable {
     private LocalDateTime sendingTime;
     private final String nameOfSender;
     private final String textOfMessage;

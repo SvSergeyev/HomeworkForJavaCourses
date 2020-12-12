@@ -12,8 +12,8 @@ public class Connection implements AutoCloseable {
     public Connection(Socket socket) {
         this.socket = socket;
         try {
-            input = new ObjectInputStream(this.socket.getInputStream());
             output = new ObjectOutputStream(this.socket.getOutputStream());
+            input = new ObjectInputStream(this.socket.getInputStream());
         } catch (IOException e) {
             System.out.println("Connection starting error.");
         }

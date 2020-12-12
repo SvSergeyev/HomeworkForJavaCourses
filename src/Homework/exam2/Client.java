@@ -18,9 +18,7 @@ public class Client {
             System.out.println("Invalid input.");
         }
         System.out.println("Connection...");
-        try /*(Connection connection = new Connection(new Socket(Server.IP, Server.PORT)))*/{
-            Connection connection
-                    = new Connection(new Socket(Server.IP, Server.PORT));
+        try (Connection connection = new Connection(new Socket(Server.IP, Server.PORT))){
             System.out.println("Connected.");
             Thread readerThread = new Thread(new Reader(connection));
             System.out.println("Reader thread started.");
@@ -35,6 +33,7 @@ public class Client {
             e.printStackTrace();
         }
     }
+
     private void sendMessage(Message message, Connection connection) {
         try {
             connection.send(message);
