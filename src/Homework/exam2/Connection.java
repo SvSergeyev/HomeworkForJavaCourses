@@ -10,7 +10,6 @@ public class Connection implements AutoCloseable {
     private ObjectInputStream input;
     private ObjectOutputStream output;
     private String sender;
-    private int id;
 
     public Connection(Socket socket) {
         this.socket = socket;

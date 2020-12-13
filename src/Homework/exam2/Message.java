@@ -11,12 +11,10 @@ public class Message implements Serializable {
     private LocalDateTime sendingTime;
     private final String sender;
     private final String textOfMessage;
-    private SimpleDateFormat timeFormat;
 
     public Message(String sender, String textOfMessage) {
         this.sender = sender;
         this.textOfMessage = textOfMessage;
-        timeFormat = new SimpleDateFormat("MM.dd 'at' HH:mm:ss");
     }
 
     public void setSendingTime() {
@@ -36,7 +34,6 @@ public class Message implements Serializable {
         DateFormat outputFormat = new SimpleDateFormat("dd MMMM 'в' HH:mm:ss");
         DateFormat inputFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
         String inputText = this.sendingTime.toString();
-
         Date date = null;
         try {
             date = inputFormat.parse(inputText);
