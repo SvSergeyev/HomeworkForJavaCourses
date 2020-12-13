@@ -4,15 +4,13 @@ import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.concurrent.ArrayBlockingQueue;
-import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.CopyOnWriteArraySet;
 
 public class Server {
     public static final String IP = "127.0.0.1";
     public static final int PORT = 8080;
-    private  Connection connection;
-    private ArrayBlockingQueue<Message> messages;
-    private CopyOnWriteArraySet<Connection> connections;
+    private static ArrayBlockingQueue<Message> messages;
+    private static CopyOnWriteArraySet<Connection> connections;
 
     public void start() {
         messages = new ArrayBlockingQueue<>(Runtime.getRuntime().availableProcessors());
@@ -21,38 +19,42 @@ public class Server {
             System.out.println("Server started at port " + PORT);
             Thread writerThread = new Thread(new Writer());
             writerThread.start();
-            while (true) {
+            while (!server.isClosed()) {
                 Socket socket = server.accept();
-                connection = new Connection(socket);
+                Connection connection = new Connection(socket);
                 connections.add(connection);
-                if (!connections.isEmpty()) {
-                    Thread readerThread = new Thread(new Reader(connection));
-                    readerThread.start();
-                }
+                Thread reader = new Thread(new Reader(connection));
+                reader.start();
             }
         } catch (IOException e) {
+            System.out.println("Server startup error.");
             e.printStackTrace();
         }
     }
 
     private class Writer implements Runnable {
-
         @Override
         public void run() {
-            System.out.println("Writer thread started.");
-            while (true) {
+            while (!Thread.currentThread().isInterrupted()) {
                 try {
                     Message outgoing = messages.take();
-                    connection.send(outgoing);
+                    for (Connection connection : connections) {
+                        if (!outgoing.getSender().equals(connection.getSender())) {
+                            connection.getOutput().writeObject(outgoing);
+                            connection.getOutput().flush();
+                        }
+                    }
                 } catch (InterruptedException | IOException e) {
+                    System.out.println("Server writer error.");
                     e.printStackTrace();
                 }
             }
         }
     }
 
+
     private class Reader implements Runnable {
-        private Connection connection;
+        private final Connection connection;
 
         public Reader(Connection connection) {
             this.connection = connection;
@@ -60,18 +62,22 @@ public class Server {
 
         @Override
         public void run() {
-            System.out.println("Reader thread started.");
-            while (true) {
-                Message incoming = null;
-                try {
-                    incoming = connection.readMessage();
-                    if (incoming != null) {
-                        System.out.println("log: " + incoming);
-                        messages.put(incoming);
+            try {
+                while (!Thread.currentThread().isInterrupted()) {
+                    Message incoming;
+                    incoming = (Message) connection.getInput().readObject();
+                    connection.setSender(incoming.getSender());
+                    if (("/exit").equals(incoming.getTextOfMessage())) {
+                        connections.remove(connection);
+                        break;
                     }
-                } catch (IOException | ClassNotFoundException | InterruptedException e) {
-                    e.printStackTrace();
+                    System.out.println("log:" + incoming);
+                    messages.put(incoming);
                 }
+            } catch (InterruptedException | IOException | ClassNotFoundException e) {
+                System.out.println("Connection with " + connection.getSender() + " was closed.");
+            } finally {
+                connection.close();
             }
         }
     }

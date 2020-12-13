@@ -9,6 +9,9 @@ public class Connection implements AutoCloseable {
     private Socket socket;
     private ObjectInputStream input;
     private ObjectOutputStream output;
+    private String sender;
+    private int id;
+
     public Connection(Socket socket) {
         this.socket = socket;
         try {
@@ -19,22 +22,38 @@ public class Connection implements AutoCloseable {
         }
     }
 
-    public void send(Message message) throws IOException {
-        message.setSendingTime();
-        output.writeObject(message);
-        output.flush();
+    public ObjectInputStream getInput() {
+        return input;
     }
 
-    public Message readMessage() throws IOException, ClassNotFoundException {
-        return (Message) input.readObject();
+    public ObjectOutputStream getOutput() {
+        return output;
+    }
+
+    public void setSender(String sender) {
+        this.sender = sender;
+    }
+
+    public String getSender() {
+        return sender;
     }
 
     @Override
-    public void close() throws Exception {
-        input.close();
-        output.close();
-        socket.close();
-        System.out.println("Connection was closed.");
+    public void close() {
+        try {
+            input.close();
+            output.close();
+            socket.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public String toString() {
+        return "Connection{" +
+                "sender='" + sender + '\'' +
+                '}';
     }
 }
 
