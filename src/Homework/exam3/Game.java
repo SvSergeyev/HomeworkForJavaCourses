@@ -8,7 +8,6 @@ import java.util.Objects;
 
 public class Game {
     private static HashMap<Nodes, PlotFork> allNodes;
-    private Nodes startPoint;
 
     public Game() {
         allNodes = new HashMap<>();

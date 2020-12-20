@@ -9,9 +9,6 @@ import java.util.HashMap;
 public class Menu {
     private static final HashMap<String, Command> commands = new HashMap<>();
 
-//    public Menu() {
-//        commands = new HashMap<>();
-//    }
 
     public static void start() {
         System.out.println("[new]  - для начала новой игры");
@@ -28,20 +25,4 @@ public class Menu {
             System.out.println("Invalid input in menu/init");
         }
     }
-
-    /*public void init() {
-        StartCommand init = new StartCommand();
-        init.execute();
-    }
-
-    public void load() {
-        LoadCommand load = new LoadCommand();
-        load.execute();
-    }
-
-    public void exit() {
-        ExitCommand exit = new ExitCommand();
-        exit.execute();
-    }*/
-
 }
